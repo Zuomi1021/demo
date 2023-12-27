@@ -23,28 +23,43 @@
     <img class="header-logo" src="assets/image/aboutus/logo-name.jpg">
     <div class="nav-title">
       <ul class="nav-name">  
-          <li class="name"><a href="index.html">首頁</a>
-          <li class="name"><a href="index.html">所有商品</a>
+          <li class="name"><a href="index.jsp">首頁</a>
+          <li class="name"><a href="index.jsp">所有商品</a>
               <ul class="subname">
-                <li><a href="product.html">首頁</a></li>
-                <li><a href="decoration.html">裝飾</a></li>
-                <li><a href="wearing.html">飾品</a></li>
-                <li><a href="cookie.html">食品</a></li>
+                <li><a href="product.jsp">首頁</a></li>
+                <li><a href="decoration.jsp">裝飾</a></li>
+                <li><a href="wearing.jsp">飾品</a></li>
+                <li><a href="cookie.jsp">食品</a></li>
               </ul>
+              
           </li>
           <li class="name"><a href="aboutus.html">關於我們</a></li>
-          <li class="name"><a href="center.html">會員中心</a></li>
+          <li class="name"><a href="center.jsp">會員中心</a></li>
       </ul>
     </div>
 
-      <div class="header-links">
-        <a href="member.html">登入</a>
-        <span>|</span>
-        <a href="signup.html">註冊</a>
-        <span>|</span>
-        <a href="car.html">購物車</a>
-      </div>
+    <div class="header-links">
+      <%
+  if (session.getAttribute("username") != null) {
+      String username = (String) session.getAttribute("username");
+  %>
+      <span>歡迎, <%= username %>！</span>
+      <a href="car.jsp">購物車</a>
+      <span>|</span>
+      <a href="logout.jsp">登出</a>
+  <%
+  } else {
+  %>
+      <a href="member.jsp">登入</a>
+      <span>|</span>
+      <a href="signup.jsp">註冊</a>
+      <span>|</span>
+      <a href="member.jsp">購物車</a>
+  <%
+  }
+  %>
     </div>
+  </div>
   
     <div class="container aboutus-part">
         <div class="card-item">

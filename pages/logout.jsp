@@ -2,5 +2,5 @@
 <%@ page import="java.io.*,java.sql.*,javax.servlet.*" %>
 <%
     session.invalidate();
-    response.sendRedirect("login.jsp");
+    response.sendRedirect("index.jsp");
 %>
