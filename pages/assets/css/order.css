@@ -1,0 +1,194 @@
+* {
+    font-family: 'Noto Serif TC', serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.nav-title {
+    position: relative;
+    width: 30%;
+    margin-right: 35%;
+    font-size: 15px;
+}
+
+.header {
+    background-color: #47896e;
+    color: white;
+    padding: 1.5% 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+.header-logo {
+    max-width: 50px;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
+.header-options {
+    display: flex;
+    margin-left: 30%;
+}
+
+.header-links {
+    display: flex;
+    margin-right: 20%;
+}
+
+.header-links a,
+.header-options a {
+    color: white;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+footer {
+    background-color: #47896e;
+    color: white;
+    text-align: center;
+    padding: 1%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: fit-content;
+    margin-top: auto;
+}
+
+.name {
+    position: relative;
+}
+
+.nav-name {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.nav-name>li {
+    float: left;
+}
+
+.nav-title li {
+    list-style: none;
+    position: relative;
+}
+
+.nav-title ul {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-name>li>a:hover {
+    color: #C0A06A;
+}
+
+.subname {
+    display: block;
+    position: absolute;
+    z-index: 2;
+}
+
+.subname li a {
+    background-color: #47896e;
+    border: 0.1px solid gray;
+    line-height: 70px;
+    font-size: 13px;
+    padding: 0 15px;
+    width: 30px;
+    height: 65px;
+}
+
+.subname li a:hover {
+    background-color: rgb(172, 172, 172);
+}
+
+.nav-name a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    line-height: 30px;
+    font-family: 'Noto Serif TC', serif;
+}
+
+.nav-name ul {
+    display: none;
+}
+
+.nav-name .name:hover ul {
+    display: block;
+}
+
+.orders {
+    text-align: left;
+    margin-left: 10%;
+}
+
+.history-orders {
+    margin-top: 2%;
+}
+
+.his-order {
+    color: gray;
+}
+
+.history-info {
+    display: flex;
+    line-height: 15px;
+}
+
+.history-info img {
+    width: 8%;
+    height: 8%;
+}
+
+.history-orders-top hr {
+    width: 90%;
+    line-height: 1.6;
+    font-size: 2em;
+    border: 20px solid rgba(221, 221, 221, 0.698);
+    margin-left: 0%;
+}
+
+.history-orders hr {
+    width: 90%;
+    line-height: 1.6;
+    font-size: .9em;
+    border: 1px solid #ddd;
+    margin-left: 0%;
+}
+
+.history-information-text {
+    margin-left: 2%;
+}
+
+.history-text {
+    display: flex;
+    margin-top: 2.5%;
+    margin-left: 50%;
+    font-size: 17px;
+}
+
+.next-page {
+    display: inline-block;
+    width: 10%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #47896e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin-left: 80%;
+}

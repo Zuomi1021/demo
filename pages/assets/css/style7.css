@@ -1,0 +1,29 @@
+h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    text-align: left;
+    width: 100%; 
+    max-width: 600px; 
+    margin: 0 auto;
+}
+
+button{
+    width:30%;
+}
+
+button[type="page"] {
+    margin-right: 19%; 
+}
+
+button[type="pay"] {
+    margin-left: 19%; 
+}

@@ -1,0 +1,43 @@
+h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    text-align: left;
+    width: 100%; 
+    max-width: 600px; 
+    margin: 0 auto;
+}
+
+.item-container {
+    display: flex;
+    align-items: centee; 
+    width: 150%
+}
+
+.item-container img {
+    width: 180px; 
+    height: auto; 
+}
+
+.item-details {
+    flex-grow: 1; 
+    margin-left: 10px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.price {
+    color: black;
+}
+
+button{
+    width: 48%;
+}

@@ -1,0 +1,243 @@
+* {
+    font-family: 'Noto Serif TC', serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.nav-title {
+    position: relative;
+    width: 30%;
+    margin-right: 35%;
+    font-size: 15px;
+}
+
+.header {
+    background-color: #47896e;
+    color: white;
+    padding: 1.5% 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+.header-logo {
+    max-width: 50px;
+    margin-top: -2%;
+    margin-bottom: -2%;
+}
+
+.header-options {
+    display: flex;
+    margin-left: 30%;
+}
+
+.header-links {
+    display: flex;
+    margin-right: 20%;
+}
+
+.header-links a,
+.header-options a {
+    color: white;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-decoration: none;
+}
+
+form {
+    padding: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-left: 7%;
+    margin-right: 7%;
+    margin-top: 1%;
+    border: none;
+    margin-bottom: 1%;
+}
+
+.form-img {
+    max-width: 300px;
+    flex-wrap: wrap;
+    margin-top: 1%;
+    border-radius: 3%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.form-img:hover {
+    transform: scale(1.05);
+}
+
+.product {
+    width: calc(30% - 20px);
+    margin: -10px;
+    text-align: center;
+}
+
+footer {
+    background-color: #47896e;
+    color: white;
+    text-align: center;
+    padding: 1%;
+    bottom: 0;
+    width: 100%;
+    height: fit-content;
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 10%;
+}
+
+.banner img {
+    width: 300px;
+    margin-top: 4%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.name {
+    position: relative;
+}
+
+.nav-name {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.nav-name>li {
+    float: left;
+}
+
+.nav-title li {
+    list-style: none;
+    position: relative;
+}
+
+.nav-title ul {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-name>li>a:hover {
+    color: #C0A06A;
+}
+
+.subname {
+    display: block;
+    position: absolute;
+    z-index: 2;
+}
+
+.subname li a {
+    background-color: #47896e;
+    border: 0.1px solid gray;
+    line-height: 70px;
+    font-size: 13px;
+    padding: 0 15px;
+    width: 30px;
+    height: 65px;
+}
+
+.subname li a:hover {
+    background-color: rgb(172, 172, 172);
+}
+
+.nav-name a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    line-height: 30px;
+    font-family: 'Noto Serif TC', serif;
+}
+
+.nav-name ul {
+    display: none;
+}
+
+.nav-name .name:hover ul {
+    display: block;
+}
+
+/* 最外層的div 包起來 */
+.slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+}
+
+.singleSlide {
+    display: flex;
+}
+
+img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+/* 先給他absolute的位置，再用top來置中 */
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+    border: transparent solid 1px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    color: black;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+    border: transparent solid 1px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    color: black;
+}
+
+/* on Hover, 靠上去的時候會有變化 */
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white !important;
+}
+
+/* 淡入淡出 特效*/
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
