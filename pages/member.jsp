@@ -54,7 +54,7 @@
         </div>
       </div>
   
-    <form action="loginProcess.jsp">
+    <form action="loginProcess.jsp" method="post">
         <div class="container">
             <h1>會員登入</h1>
     

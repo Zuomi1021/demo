@@ -55,7 +55,7 @@
         </div>
       </div>
 
-    <form action="signupProcess.jsp">
+    <form action="signupProcess.jsp" method="post">
       <div class="container">
           <h1>會員註冊</h1>
           <div class="label-container"> 
