@@ -54,6 +54,7 @@
       %>
       </div>
     </div>
+
 <form action="changepassword.jsp" method="post">
     <div class="container">
         <h1>重新設定密碼</h1>
@@ -73,6 +74,62 @@
         </div>
     </div>
 </form>
+<%
+String enteredAccount = (String) session.getAttribute("accountFromDatabase");
+String newPassword = request.getParameter("newpassword");
+
+if (newPassword != null && !newPassword.isEmpty()) { 
+    String url = "jdbc:mysql://localhost:3306/index";
+    String dbUsername = "root";
+    String dbPassword = "1234";
+
+    Connection con = null;
+    PreparedStatement ps = null;
+
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = DriverManager.getConnection(url, dbUsername, dbPassword);
+        String query = "UPDATE personal_data SET password = ? WHERE account = ?";
+        ps = con.prepareStatement(query);
+        ps.setString(1, newPassword);
+        ps.setString(2, enteredAccount);
+
+        int rowsAffected = ps.executeUpdate();
+
+        if (rowsAffected > 0) {
+%>
+            <script>
+                var confirmSignup = confirm("修改成功，請重新登入。");
+                if (confirmSignup) {
+                    window.location.href = "signin.jsp";
+                }
+            </script>
+<%
+        } else {
+%>
+            <script>
+                var confirmSignup = confirm("修改失敗，請再試一次。");
+                if (confirmSignup) {
+                    window.location.href = "password.jsp";
+                }
+            </script>
+<%
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        // 清理資源
+        try { if (ps != null) ps.close(); } catch (SQLException e) { /* 處理或忽略 */ }
+        try { if (con != null) con.close(); } catch (SQLException e) { /* 處理或忽略 */ }
+    }
+} else if (request.getMethod().equalsIgnoreCase("POST")) {
+%>
+    <script>
+        window.location.href = "changepassword.jsp";
+    </script>
+<%
+}
+%>
 
 <footer>
     &copy; 2023 蔡貽琳 李芸妘 鄭夙妙 邱凱琳 陳家謙 許明琪
