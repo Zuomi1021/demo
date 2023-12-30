@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.*" %>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,8 +27,18 @@
                 </ul>
                 
             </li>
-            <li class="name"><a href="aboutus.html">關於我們</a></li>
-            <li class="name"><a href="center.jsp">會員中心</a></li>
+            <li class="name"><a href="aboutus.jsp">關於我們</a></li>
+            <%
+            if (session.getAttribute("account") != null) {
+            %>
+                <li class="name"><a href="center.jsp">會員中心</a></li>
+            <%
+            } else {
+            %>
+                <li class="name"><a href="member.jsp">會員中心</a></li>
+            <%
+            }
+            %>
         </ul>
       </div>
 
@@ -53,23 +64,94 @@
     %>
       </div>
     </div>
+    <%!
+    public String getAdSrc(int adId) {
+        String AdSrc = "";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+            Connection con = DriverManager.getConnection(url, "root", "1234");
+            String sql = "SELECT src FROM ad WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, adId);
+            ResultSet rs = pstmt.executeQuery();
 
+            if (rs.next()) {
+                AdSrc = rs.getString("src");
+            }
+
+            rs.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return AdSrc;
+    }
+    public String getProductNames(int productId) {
+        String productName = "";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+            Connection con = DriverManager.getConnection(url, "root", "1234");
+            String sql = "SELECT name FROM product WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                productName = rs.getString("name");
+            }
+
+            rs.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productName;
+    }
+
+    public String getProductSrc(int productId) {
+        String productSrc = "";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+            Connection con = DriverManager.getConnection(url, "root", "1234");
+            String sql = "SELECT src FROM product WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                productSrc = rs.getString("src");
+            }
+
+            rs.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productSrc;
+    }
+    %>
     <div class="slideshow-container">
       <div class="singleSlide fade" style="display: none;">
-        <img src="assets/image/banner/banner4.jpg">
+        <img src="assets/image/<%= getAdSrc(1) %>.jpg">
       </div>
 
       <div class="singleSlide fade" style="display: none;">
-          <img src="assets/image/banner/banner1.jpg">
-      </div>
-
-      <div class="singleSlide fade" style="display: none;">
-          <img src="assets/image/banner/banner2.jpg">
-      </div>
-
-      <div class="singleSlide fade" style="display: none;">
-        <img src="assets/image/banner/banner3.jpg">
-      </div>
+        <img src="assets/image/<%= getAdSrc(2) %>.jpg">
+    </div>
+    
+    <div class="singleSlide fade" style="display: none;">
+        <img src="assets/image/<%= getAdSrc(3) %>.jpg">
+    </div>
+    
+    <div class="singleSlide fade" style="display: none;">
+        <img src="assets/image/<%= getAdSrc(4) %>.jpg">
+    </div>
 
       <button class="prev" onclick="plusSlides(-1)">❮</button>
       <button class="next" onclick="plusSlides(1)">❯</button>
@@ -81,18 +163,18 @@
     </div>
     <form>
         <div class="product">
-          <a href="product.html"><img class="form-img" src="assets/image/cookie/product1.jpg"></a>
-          <h2>杏仁手工餅乾</h2> 
+          <a href="product.jsp"><img class="form-img" src="assets/image/<%= getProductSrc(13) %>.jpg"></a>
+          <h2><%= getProductNames(13) %></h2> 
         </div>
   
         <div class="product">
-          <a href="product.html"><img class="form-img" src="assets/image/cookie/product2.jpg"></a>
-          <h2>經典手作餅乾</h2> 
+          <a href="product.jsp"><img class="form-img" src="assets/image/<%= getProductSrc(14) %>.jpg"></a>
+          <h2><%= getProductNames(14) %></h2> 
         </div>
   
         <div class="product">
-          <a href="product.html"><img class="form-img" src="assets/image/cookie/product5.jpg"></a>
-          <h2>噠啵曲奇-雙拼派對</h2>
+          <a href="product.jsp"><img class="form-img" src="assets/image/<%= getProductSrc(15) %>.jpg"></a>
+          <h2><%= getProductNames(15) %></h2>
         </div>              
 
     </form>

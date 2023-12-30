@@ -18,17 +18,27 @@
     <img class="header-logo" src="assets/image/aboutus/logo-name.jpg">
     <div class="nav-title">
       <ul class="nav-name">  
-          <li class="name"><a href="index.html">首頁</a>
-          <li class="name"><a href="index.html">所有商品</a>
+          <li class="name"><a href="index.jsp">首頁</a>
+          <li class="name"><a href="index.jsp">所有商品</a>
               <ul class="subname">
-                <li><a href="product.html">首頁</a></li>
-                <li><a href="decoration.html">裝飾</a></li>
-                <li><a href="wearing.html">飾品</a></li>
-                <li><a href="cookie.html">食品</a></li>
+                <li><a href="product.jsp">首頁</a></li>
+                <li><a href="decoration.jsp">裝飾</a></li>
+                <li><a href="wearing.jsp">飾品</a></li>
+                <li><a href="cookie.jsp">食品</a></li>
               </ul>
           </li>
-          <li class="name"><a href="aboutus.html">關於我們</a></li>
-          <li class="name"><a href="center.html">會員中心</a></li>
+          <li class="name"><a href="aboutus.jsp">關於我們</a></li>
+          <%
+          if (session.getAttribute("account") != null) {
+          %>
+              <li class="name"><a href="center.jsp">會員中心</a></li>
+          <%
+          } else {
+          %>
+              <li class="name"><a href="member.jsp">會員中心</a></li>
+          <%
+          }
+          %>
       </ul>
     </div>
 
