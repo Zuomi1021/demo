@@ -225,6 +225,9 @@ CREATE TABLE `personal_data` (
   `phone_number` char(10) DEFAULT NULL,
   `sex` int DEFAULT NULL,
   `birthday` date DEFAULT NULL,
+  `nickname` varchar(50) DEFAULT NULL,
+  `rank` varchar(45) DEFAULT NULL,
+  `pfp` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,7 +238,7 @@ CREATE TABLE `personal_data` (
 
 LOCK TABLES `personal_data` WRITE;
 /*!40000 ALTER TABLE `personal_data` DISABLE KEYS */;
-INSERT INTO `personal_data` VALUES (1,'user@123','user@123password',NULL,'新北市','user1@gmail.com','0989441123',2,'2000-11-03'),(2,'user@223','user@223password',NULL,'台北市','user2@gmail.com','0989111222',1,'1999-11-23'),(4,'user@323','user@323',NULL,'高雄市','user3@gmail.com','0912345688',2,'2023-12-22');
+INSERT INTO `personal_data` VALUES (1,'user@123','user@123password','使用者一號','新北市板橋區','user1@gmail.com','0989441123',2,'2000-11-03','一號','鑽石VIP會員','member/profile'),(2,'user@223','user@223password','使用者二號','台北市大安區','user2@gmail.com','0989111222',1,'1999-11-23','二號','黃金VIP會員','member/profile'),(4,'user@323','user@323','使用者三號','高雄市楠梓區','user3@gmail.com','0912345688',2,'2023-12-22','三號','白金VIP會員','member/profile');
 /*!40000 ALTER TABLE `personal_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,4 +282,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-31  3:26:20
+-- Dump completed on 2024-01-01  1:06:23

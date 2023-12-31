@@ -71,6 +71,145 @@
         </div>
       </div>
 
+      <% 
+      String accountId = (String) session.getAttribute("accountFromDatabase");
+      if (request.getMethod().equals("POST")) {
+          String newName = request.getParameter("name");
+          String newEmail = request.getParameter("email");
+          String newNickname = request.getParameter("nickname");
+          String newAddress = request.getParameter("address");
+          String newAccount = request.getParameter("account");
+          String newPassword = request.getParameter("password");
+          
+          Connection conn = null;
+          PreparedStatement ps = null;
+          try {
+              conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/index", "root", "1234");
+              String query = "UPDATE personal_data SET name = ?, email = ?, nickname = ?, address = ?, account = ?, password = ?, WHERE account = ?";
+              ps = conn.prepareStatement(query);
+              ps.setString(1, newName);
+              ps.setString(2, newEmail);
+              ps.setString(3, accountId);
+              ps.setString(4, newNickname);
+              ps.setString(5, newAddress);
+              ps.setString(6, newAccount);
+              ps.setString(7, newPassword);
+              ps.executeUpdate();
+
+          } catch (SQLException e) {
+              e.printStackTrace();
+
+          } finally {
+              try {
+                  if (ps != null) ps.close();
+                  if (conn != null) conn.close();
+              } catch (SQLException e) {
+                  e.printStackTrace();
+              }
+          }
+      }
+      %>
+      <%!
+      public String getProductNames(int productId) {
+        String productName = "";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+            Connection con = DriverManager.getConnection(url, "root", "1234");
+            String sql = "SELECT name FROM product WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                productName = rs.getString("name");
+            }
+
+            rs.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productName;
+    }
+
+    public String getProductSrc(int productId) {
+        String productSrc = "";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+            Connection con = DriverManager.getConnection(url, "root", "1234");
+            String sql = "SELECT src FROM product WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                productSrc = rs.getString("src");
+            }
+
+            rs.close();
+            pstmt.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productSrc;
+    }
+    %>
+    <script>
+      function editProfile() {
+          var nameField = document.getElementById("nameField").value;
+          var emailField = document.getElementById("emailField").value;
+          var addressField = document.getElementById("addressField").value;
+          var nicknameField = document.getElementById("nicknameField").value;
+          var accountField = document.getElementById("accountField").value;
+          var passwordField = document.getElementById("passwordField").value;
+  
+          if (nameField.readOnly) {
+              nameField.readOnly = false;
+              emailField.readOnly = false;
+              addressField.readOnly = false;
+              nicknameField.readOnly = false;
+              accountField.readOnly = false;
+              passwordField.readOnly = false;
+  
+              document.querySelector("button").innerText = "確認修改";
+          } else {
+              nameField.readOnly = true;
+              emailField.readOnly = true;
+              addressField.readOnly = true;
+              nicknameField.readOnly = true;
+              accountField.readOnly = true;
+              passwordField.readOnly = true;
+  
+              // 這裡添加代碼將資料提交到後端，更新資料庫
+              fetch('updateProfile.jsp', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                      name: nameField,
+                      email: emailField,
+                      address: addressField,
+                      nickname: nicknameField,
+                      account: accountField,
+                      password: passwordField
+                  }),
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }
+              })
+              .then(response => {
+                  // 在這裡處理回傳的響應，可以是重新載入頁面或其他操作
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+  
+              document.querySelector("button").innerText = "修改會員資訊";
+          }
+      }
+  </script>
     <div class="tab_css">
       <input id="member" type="radio" name="tab" checked="checked"/>
       <label for="member">會員中心</label>
@@ -84,25 +223,25 @@
                 <div class="profile-info-bold">
                   <p><b>會員姓名：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="name" value="崔小朋"/>
+                    <input type="text" id="nameField" value="崔小朋" readonly>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>會員暱稱：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="name" value="807maker"/>
+                    <input type="text" name="nicknameField" value="807maker"/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>電子郵件：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="name" value="treasuk427@gmail.com"/>
+                    <input type="text" name="emailField" value="treasuk427@gmail.com"/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>常用地址：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="name" value="新北市新莊區中正路108號"/>
+                    <input type="text" name="addressField" value="新北市新莊區中正路108號"/>
                   </div>
                 </div>
                 <hr>
@@ -110,25 +249,19 @@
                 <div class="profile-info-bold">
                   <p><b>會員帳號：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="name" value="treasuk427@gmail.com"/>
-                  </div>
-                </div>
-                <div class="profile-info-bold">
-                  <p><b>會員暱稱：</b></p>
-                  <div class="profile-info-bold-input">
-                    <input type="text" name="name" value="807maker"/>
+                    <input type="text" name="accountField" value="treasuk427"/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>會員密碼：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="name" value="Suk10022117_"/>
+                    <input type="text" name="passwordField" value="Suk10022117_"/>
                   </div>
                 </div>
               </div>
             </div>
         </div>
-        <button type="button" class="cart">修改會員資訊</button>
+        <div class="cart"><button onclick="editProfile()">修改會員資訊</button></div>
       </div>
 
       <input id="order" type="radio" name="tab" />
