@@ -78,7 +78,7 @@
                         </script>
     <%
                     } else {
-                        String insertQuery = "INSERT INTO personal_data (account, password, sex, birthday, phone_number, email) VALUES (?, ?, ?, ?, ?, ?)";
+                        String insertQuery = "INSERT INTO personal_data (account, password, sex, birthday, phone_number, email, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
                         ps = con.prepareStatement(insertQuery);
                         ps.setString(1, account);
                         ps.setString(2, password);
@@ -86,7 +86,7 @@
                         ps.setString(4, birthday);
                         ps.setString(5, phone_number);
                         ps.setString(6, email);
-                        ps.serString(7, address);
+                        ps.setString(7, address);
                         ps.executeUpdate();
                         response.sendRedirect("member.jsp");
                     }

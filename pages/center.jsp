@@ -85,15 +85,15 @@
           PreparedStatement ps = null;
           try {
               conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/index", "root", "1234");
-              String query = "UPDATE personal_data SET name = ?, email = ?, nickname = ?, address = ?, account = ?, password = ?, WHERE account = ?";
+              String query = "UPDATE personal_data SET name = ?, email = ?, nickname = ?, address = ?, account = ?, password = ? WHERE account = ?";
               ps = conn.prepareStatement(query);
               ps.setString(1, newName);
               ps.setString(2, newEmail);
-              ps.setString(3, accountId);
-              ps.setString(4, newNickname);
-              ps.setString(5, newAddress);
-              ps.setString(6, newAccount);
-              ps.setString(7, newPassword);
+              ps.setString(3, newNickname);
+              ps.setString(4, newAddress);
+              ps.setString(5, newAccount);
+              ps.setString(6, newPassword);
+              ps.setString(7, accountId);
               ps.executeUpdate();
 
           } catch (SQLException e) {
@@ -110,19 +110,21 @@
       }
       %>
       <%!
-      public String getProductNames(int productId) {
+      public String getProduct(int productId) {
         String productName = "";
+        String productSrc = "";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
             Connection con = DriverManager.getConnection(url, "root", "1234");
-            String sql = "SELECT name FROM product WHERE id = ?";
+            String sql = "SELECT name, src FROM product WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, productId);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 productName = rs.getString("name");
+                productSrc = rs.getString("src");
             }
 
             rs.close();
@@ -133,30 +135,50 @@
         }
         return productName;
     }
+    public String getPerson_data(int userId) {
+      String UserName = "";
+      String Pfp = "";
+      String Rank = "";
+      String Nickname = "";
+      String Email = "";
+      String Address = "";
+      String Account = "";
+      String Password = "";
+      try {
+          Class.forName("com.mysql.jdbc.Driver");
+          String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+          Connection con = DriverManager.getConnection(url, "root", "1234");
+          String sql = "SELECT name, nickname, pfp, rank, email, address, account, password FROM personal_data WHERE id = ?";
+          PreparedStatement pstmt = con.prepareStatement(sql);
+          pstmt.setInt(1, userId);
+          ResultSet rs = pstmt.executeQuery();
 
-    public String getProductSrc(int productId) {
-        String productSrc = "";
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-            Connection con = DriverManager.getConnection(url, "root", "1234");
-            String sql = "SELECT src FROM product WHERE id = ?";
-            PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, productId);
-            ResultSet rs = pstmt.executeQuery();
+          if (rs.next()) {
+              UserName = rs.getString("name");
+              Pfp = rs.getString("name");
+              Rank = rs.getString("rank");
+              Nickname = rs.getString("nickname");
+              Email = rs.getString("email");
+              Address = rs.getString("address");
+              Account = rs.getString("account");
+              Password = rs.getString("password");
+          }
 
-            if (rs.next()) {
-                productSrc = rs.getString("src");
-            }
-
-            rs.close();
-            pstmt.close();
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return productSrc;
-    }
+          rs.close();
+          pstmt.close();
+          con.close();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      return UserName;
+      return Pfp;
+      return Rank;
+      return Nickname;
+      return Email;
+      return Address;
+      return Account;
+      return Password;
+  }
     %>
     <script>
       function editProfile() {
@@ -184,7 +206,7 @@
               accountField.readOnly = true;
               passwordField.readOnly = true;
   
-              // 這裡添加代碼將資料提交到後端，更新資料庫
+              
               fetch('updateProfile.jsp', {
                   method: 'POST',
                   body: JSON.stringify({
@@ -200,7 +222,7 @@
                   }
               })
               .then(response => {
-                  // 在這裡處理回傳的響應，可以是重新載入頁面或其他操作
+                  
               })
               .catch(error => {
                   console.error('Error:', error);
@@ -217,31 +239,31 @@
         <div class="member">
             <h1>Membership</h1>
             <div class="profile">
-              <img src="assets/image/member/profile.png" id="profile">
+              <img src="assets/image/<%= Pfp %>.png" id="profile">
               <div class="profile-info">
                 <h3>黃金VIP會員</h3>
                 <div class="profile-info-bold">
                   <p><b>會員姓名：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" id="nameField" value="崔小朋" readonly>
+                    <input type="text" id="nameField" value="<%= UserName %>" readonly>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>會員暱稱：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="nicknameField" value="807maker"/>
+                    <input type="text" name="nicknameField" value="<%= Nickname %>"/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>電子郵件：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="emailField" value="treasuk427@gmail.com"/>
+                    <input type="text" name="emailField" value="<%= Email %>"/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>常用地址：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="addressField" value="新北市新莊區中正路108號"/>
+                    <input type="text" name="addressField" value="<%= Address %>"/>
                   </div>
                 </div>
                 <hr>
@@ -249,19 +271,19 @@
                 <div class="profile-info-bold">
                   <p><b>會員帳號：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="accountField" value="treasuk427"/>
+                    <input type="text" name="accountField" value="<%= Account %>"/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>會員密碼：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="passwordField" value="Suk10022117_"/>
+                    <input type="text" name="passwordField" value="<%= Password %>"/>
                   </div>
                 </div>
               </div>
             </div>
         </div>
-        <div class="cart"><button onclick="editProfile()">修改會員資訊</button></div>
+        <button onclick="editProfile()" class="cart">修改會員資訊</button>
       </div>
 
       <input id="order" type="radio" name="tab" />
@@ -270,7 +292,7 @@
         <div class="orders"> 
             <h1>My orders</h1>
             <p class="orders-type"><b>Product Types & Status</b></p>
-            <a href="order.html" class="history-orders">
+            <a href="order.jsp" class="history-orders">
                 <p>07/08/2024, 08:07</p>
                 <p class="his-order">Order number 100221170807</p>
                 <hr>

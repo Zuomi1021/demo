@@ -111,7 +111,7 @@ if (newPassword != null && !newPassword.isEmpty()) {
             <script>
                 var confirmSignup = confirm("修改成功，請重新登入。");
                 if (confirmSignup) {
-                    window.location.href = "signin.jsp";
+                    window.location.href = "member.jsp";
                 }
             </script>
 <%
