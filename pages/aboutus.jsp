@@ -178,25 +178,25 @@
         <div class="card-item">
           <div class="card">
             <div class="imgBx">
-              <img class="myphoto" src="#" />
+              <img class="myphoto" src="assets\image\aboutus\hsu.jpg" />
             </div>
             <div class="content">
               <div class="details">
                 <h2>網頁後端 許明琪</h2>
-                <p>OOO</p>
+                <p>實際進行之後才發現自己仍有許多不足的地方，需要透過網路才能好好的補足這些缺乏的知識。</p>
                 <ul class="social-icons">
                   <li>
-                    <a href="#" target="_blank"
+                    <a href="https://www.facebook.com/profile.php?id=100048048127111" target="_blank"
                       ><i class="fa-brands fa-square-facebook"></i
                     ></a>
                   </li>
                   <li>
-                    <a href="#" target="_blank"
+                    <a href="https://www.instagram.com/ush_1021/" target="_blank"
                       ><i class="fa-brands fa-square-instagram"></i
                     ></a>
                   </li>
                   <li>
-                    <a href="mailto:#" target="_blank"
+                    <a href="mailto:a09664489992144@gmail.com" target="_blank"
                       ><i class="fa-solid fa-square-envelope"></i
                     ></a>
                   </li>
@@ -208,7 +208,7 @@
         <div class="card-item">
             <div class="card">
               <div class="imgBx">
-                <img class="myphoto" src="#" />
+                <img class="myphoto" src="assets/image/aboutus/duck.jpg" />
               </div>
               <div class="content">
                 <div class="details">
@@ -240,7 +240,7 @@
           <div class="card-item">
             <div class="card">
               <div class="imgBx">
-                <img class="myphoto" src="#" />
+                <img class="myphoto" src="assets/image/aboutus/hamster.jpg" />
               </div>
               <div class="content">
                 <div class="details">
