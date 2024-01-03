@@ -43,35 +43,6 @@ INSERT INTO `ad` VALUES (1,'橫幅4','banner/banner4'),(2,'橫幅1','banner/bann
 UNLOCK TABLES;
 
 --
--- Table structure for table `admin`
---
-
-DROP TABLE IF EXISTS `admin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `admin` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `account` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `permissions` varchar(255) DEFAULT NULL,
-  `join_time` datetime DEFAULT NULL,
-  `leave_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `admin`
---
-
-LOCK TABLES `admin` WRITE;
-/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'admin','admin@123','admin@password',NULL,'2023-12-18 00:00:00',NULL);
-/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `car`
 --
 
@@ -101,83 +72,55 @@ LOCK TABLES `car` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `common`
+-- Table structure for table `manager`
 --
 
-DROP TABLE IF EXISTS `common`;
+DROP TABLE IF EXISTS `manager`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `common` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
-  `time` date DEFAULT NULL,
-  `rank` int DEFAULT NULL,
+CREATE TABLE `manager` (
+  `id` int NOT NULL,
+  `account` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `joindate` varchar(45) DEFAULT NULL,
+  `leavedate` varchar(45) DEFAULT NULL,
+  `rank` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `common`
+-- Dumping data for table `manager`
 --
 
-LOCK TABLES `common` WRITE;
-/*!40000 ALTER TABLE `common` DISABLE KEYS */;
-/*!40000 ALTER TABLE `common` ENABLE KEYS */;
+LOCK TABLES `manager` WRITE;
+/*!40000 ALTER TABLE `manager` DISABLE KEYS */;
+INSERT INTO `manager` VALUES (1,'topmanager@1','topmanager@1password','2023-12-12',NULL,'top'),(2,'middlemanager@1','middlemanager@1password','2024-1-2',NULL,'middle');
+/*!40000 ALTER TABLE `manager` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `credit_card`
+-- Table structure for table `order`
 --
 
-DROP TABLE IF EXISTS `credit_card`;
+DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `credit_card` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `payway_id` int DEFAULT NULL,
-  `card_number` int DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `maturity_date` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `payway_id` (`payway_id`),
-  CONSTRAINT `credit_card_ibfk_1` FOREIGN KEY (`payway_id`) REFERENCES `payway` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `credit_card`
---
-
-LOCK TABLES `credit_card` WRITE;
-/*!40000 ALTER TABLE `credit_card` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credit_card` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `discount`
---
-
-DROP TABLE IF EXISTS `discount`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `discount` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL,
-  `content` varchar(255) DEFAULT NULL,
-  `time` datetime DEFAULT NULL,
-  `range` varchar(255) DEFAULT NULL,
+CREATE TABLE `order` (
+  `id` int NOT NULL,
+  `order_number` varchar(45) DEFAULT NULL,
+  `date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `discount`
+-- Dumping data for table `order`
 --
 
-LOCK TABLES `discount` WRITE;
-/*!40000 ALTER TABLE `discount` DISABLE KEYS */;
-/*!40000 ALTER TABLE `discount` ENABLE KEYS */;
+LOCK TABLES `order` WRITE;
+/*!40000 ALTER TABLE `order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -217,19 +160,19 @@ DROP TABLE IF EXISTS `personal_data`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `personal_data` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `account` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `phone_number` char(10) DEFAULT NULL,
+  `account` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `phone_number` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `sex` int DEFAULT NULL,
   `birthday` date DEFAULT NULL,
-  `nickname` varchar(50) DEFAULT NULL,
-  `rank` varchar(45) DEFAULT NULL,
-  `pfp` varchar(100) DEFAULT NULL,
+  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `rank` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `pfp` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +181,7 @@ CREATE TABLE `personal_data` (
 
 LOCK TABLES `personal_data` WRITE;
 /*!40000 ALTER TABLE `personal_data` DISABLE KEYS */;
-INSERT INTO `personal_data` VALUES (1,'user@123','user@123password','使用者一號','新北市板橋區','user1@gmail.com','0989441123',2,'2000-11-03','一號','鑽石VIP會員','member/profile'),(2,'user@223','user@223password','使用者二號','台北市大安區','user2@gmail.com','0989111222',1,'1999-11-23','二號','黃金VIP會員','member/profile'),(4,'user@323','user@323','使用者三號','高雄市楠梓區','user3@gmail.com','0912345688',2,'2023-12-22','三號','白金VIP會員','member/profile');
+INSERT INTO `personal_data` VALUES (1,'user@123','user@123password','使用者一號','新北市板橋區','user1@gmail.com','0989441123',2,'2000-11-03','一號','鑽石VIP會員','member/profile'),(2,'user@223','user@223password','使用者二號','台北市大安區','user2@gmail.com','0989111222',1,'1999-11-23','二號','黃金VIP會員','member/profile'),(3,'user@323','user@323','使用者三號','高雄市楠梓區','user3@gmail.com','0912345688',2,'2023-12-22','三號','白金VIP會員','member/profile'),(4,'user@423','user@423',NULL,'澎湖縣','user4@gmail.com','0912345687',2,'2023-12-08',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `personal_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-01  1:06:23
+-- Dump completed on 2024-01-03 17:10:27
