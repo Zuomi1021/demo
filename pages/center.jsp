@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*" %>
+<%@ page import="javax.servlet.http.HttpServletRequest" %>
+<%@ page import="javax.servlet.http.HttpServletResponse" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -70,168 +73,48 @@
       %>
         </div>
       </div>
-
-      <% 
-      String accountId = (String) session.getAttribute("accountFromDatabase");
-      if (request.getMethod().equals("POST")) {
-          String newName = request.getParameter("name");
-          String newEmail = request.getParameter("email");
-          String newNickname = request.getParameter("nickname");
-          String newAddress = request.getParameter("address");
-          String newAccount = request.getParameter("account");
-          String newPassword = request.getParameter("password");
-          
-          Connection conn = null;
-          PreparedStatement ps = null;
-          try {
-              conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/index", "root", "1234");
-              String query = "UPDATE personal_data SET name = ?, email = ?, nickname = ?, address = ?, account = ?, password = ? WHERE account = ?";
-              ps = conn.prepareStatement(query);
-              ps.setString(1, newName);
-              ps.setString(2, newEmail);
-              ps.setString(3, newNickname);
-              ps.setString(4, newAddress);
-              ps.setString(5, newAccount);
-              ps.setString(6, newPassword);
-              ps.setString(7, accountId);
-              ps.executeUpdate();
-
-          } catch (SQLException e) {
-              e.printStackTrace();
-
-          } finally {
-              try {
-                  if (ps != null) ps.close();
-                  if (conn != null) conn.close();
-              } catch (SQLException e) {
-                  e.printStackTrace();
-              }
-          }
-      }
-      %>
-      <%!
-      public String getProduct(int productId) {
-        String productName = "";
-        String productSrc = "";
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-            Connection con = DriverManager.getConnection(url, "root", "1234");
-            String sql = "SELECT name, src FROM product WHERE id = ?";
-            PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, productId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                productName = rs.getString("name");
-                productSrc = rs.getString("src");
-            }
-
-            rs.close();
-            pstmt.close();
-            con.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return productName;
-    }
-    public String getPerson_data(int userId) {
-      String UserName = "";
-      String Pfp = "";
-      String Rank = "";
-      String Nickname = "";
-      String Email = "";
-      String Address = "";
-      String Account = "";
-      String Password = "";
+      <%
+      String account = (String) session.getAttribute("account");
+      String name = "", nickname = "", email = "", address = "", password = "", pfp = "";
+  
+      // 獲取用戶資料
       try {
+          // 連接資料庫，執行查詢
           Class.forName("com.mysql.jdbc.Driver");
-          String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-          Connection con = DriverManager.getConnection(url, "root", "1234");
-          String sql = "SELECT name, nickname, pfp, rank, email, address, account, password FROM personal_data WHERE id = ?";
-          PreparedStatement pstmt = con.prepareStatement(sql);
-          pstmt.setInt(1, userId);
-          ResultSet rs = pstmt.executeQuery();
-
+          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/index", "root", "1234");
+          String query = "SELECT name, nickname, email, address, password, pfp FROM personal_data WHERE account = ?";
+          PreparedStatement stmt = conn.prepareStatement(query);
+          stmt.setString(1, account);
+          ResultSet rs = stmt.executeQuery();
+  
           if (rs.next()) {
-              UserName = rs.getString("name");
-              Pfp = rs.getString("name");
-              Rank = rs.getString("rank");
-              Nickname = rs.getString("nickname");
-              Email = rs.getString("email");
-              Address = rs.getString("address");
-              Account = rs.getString("account");
-              Password = rs.getString("password");
-          }
+            // 將查詢結果賦值給相應的變數
+            name = rs.getString("name");
+            nickname = rs.getString("nickname");
+            email = rs.getString("email");
+            address = rs.getString("address");
+            password = rs.getString("password");
+            pfp = rs.getString("pfp");
 
-          rs.close();
-          pstmt.close();
-          con.close();
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-      return UserName;
-      return Pfp;
-      return Rank;
-      return Nickname;
-      return Email;
-      return Address;
-      return Account;
-      return Password;
-  }
-    %>
-    <script>
-      function editProfile() {
-          var nameField = document.getElementById("nameField").value;
-          var emailField = document.getElementById("emailField").value;
-          var addressField = document.getElementById("addressField").value;
-          var nicknameField = document.getElementById("nicknameField").value;
-          var accountField = document.getElementById("accountField").value;
-          var passwordField = document.getElementById("passwordField").value;
-  
-          if (nameField.readOnly) {
-              nameField.readOnly = false;
-              emailField.readOnly = false;
-              addressField.readOnly = false;
-              nicknameField.readOnly = false;
-              accountField.readOnly = false;
-              passwordField.readOnly = false;
-  
-              document.querySelector("button").innerText = "確認修改";
-          } else {
-              nameField.readOnly = true;
-              emailField.readOnly = true;
-              addressField.readOnly = true;
-              nicknameField.readOnly = true;
-              accountField.readOnly = true;
-              passwordField.readOnly = true;
-  
-              
-              fetch('updateProfile.jsp', {
-                  method: 'POST',
-                  body: JSON.stringify({
-                      name: nameField,
-                      email: emailField,
-                      address: addressField,
-                      nickname: nicknameField,
-                      account: accountField,
-                      password: passwordField
-                  }),
-                  headers: {
-                      'Content-Type': 'application/json'
-                  }
-              })
-              .then(response => {
-                  
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-              });
-  
-              document.querySelector("button").innerText = "修改會員資訊";
-          }
-      }
-  </script>
+            // 設置到request屬性中
+            request.setAttribute("Name", name);
+            request.setAttribute("Nickname", nickname);
+            request.setAttribute("Email", email);
+            request.setAttribute("Address", address);
+            request.setAttribute("Password", password);
+            request.setAttribute("Pfp", pfp);
+        }
+
+        // 釋放資源
+        rs.close();
+        stmt.close();
+        conn.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+%>
+
+      
     <div class="tab_css">
       <input id="member" type="radio" name="tab" checked="checked"/>
       <label for="member">會員中心</label>
@@ -239,31 +122,31 @@
         <div class="member">
             <h1>Membership</h1>
             <div class="profile">
-              <img src="assets/image/<%= Pfp %>.png" id="profile">
+              <img src='assets/image/<%= request.getAttribute("Pfp") %>.png' id="profile">
               <div class="profile-info">
                 <h3>黃金VIP會員</h3>
                 <div class="profile-info-bold">
                   <p><b>會員姓名：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" id="nameField" value="<%= UserName %>" readonly>
+                    <input type="text" id="nameField" value='<%= request.getAttribute("Name") %>' readonly>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>會員暱稱：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="nicknameField" value="<%= Nickname %>"/>
+                    <input type="text" name="nicknameField" value='<%= request.getAttribute("Nickname") %>'/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>電子郵件：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="emailField" value="<%= Email %>"/>
+                    <input type="text" name="emailField" value='<%= request.getAttribute("Email") %>'/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>常用地址：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="addressField" value="<%= Address %>"/>
+                    <input type="text" name="addressField" value='<%= request.getAttribute("Address") %>'/>
                   </div>
                 </div>
                 <hr>
@@ -271,13 +154,13 @@
                 <div class="profile-info-bold">
                   <p><b>會員帳號：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="accountField" value="<%= Account %>"/>
+                    <input type="text" name="accountField" value="<%= account %>"/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>會員密碼：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="passwordField" value="<%= Password %>"/>
+                    <input type="password" name="passwordField" value='<%= request.getAttribute("Password") %>'/>
                   </div>
                 </div>
               </div>

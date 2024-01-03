@@ -67,55 +67,39 @@
         </div>
       </div>
 
-      <%!
-      public String getProductNames(int productId) {
-          String productName = "";
-          try {
-              Class.forName("com.mysql.jdbc.Driver");
-              String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-              Connection con = DriverManager.getConnection(url, "root", "1234");
-              String sql = "SELECT name FROM product WHERE id = ?";
-              PreparedStatement pstmt = con.prepareStatement(sql);
-              pstmt.setInt(1, productId);
-              ResultSet rs = pstmt.executeQuery();
-  
-              if (rs.next()) {
-                  productName = rs.getString("name");
-              }
-  
-              rs.close();
-              pstmt.close();
-              con.close();
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-          return productName;
-      }
-  
-      public String getProductSrc(int productId) {
-          String productSrc = "";
-          try {
-              Class.forName("com.mysql.jdbc.Driver");
-              String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-              Connection con = DriverManager.getConnection(url, "root", "1234");
-              String sql = "SELECT src FROM product WHERE id = ?";
-              PreparedStatement pstmt = con.prepareStatement(sql);
-              pstmt.setInt(1, productId);
-              ResultSet rs = pstmt.executeQuery();
-  
-              if (rs.next()) {
-                  productSrc = rs.getString("src");
-              }
-  
-              rs.close();
-              pstmt.close();
-              con.close();
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-          return productSrc;
-      }
-      %>
+<%!
+public String getProductInfo(int productId, String column) {
+    String productInfo = "";
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+        Connection con = DriverManager.getConnection(url, "root", "1234");
+        String sql = "SELECT " + column + " FROM product WHERE id = ?";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setInt(1, productId);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            productInfo = rs.getString(column);
+        }
+
+        rs.close();
+        pstmt.close();
+        con.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return productInfo;
+}
+
+public String getProductNames(int productId) {
+    return getProductInfo(productId, "name");
+}
+
+public String getProductSrc(int productId) {
+    return getProductInfo(productId, "src");
+}
+%>
   
   <h2 class="topic-title">WEARING</h2> 
   <form action="car.jsp" method="post">
