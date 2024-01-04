@@ -66,115 +66,219 @@
     </div>
 
     <%!
-    public String getProductNames(int productId) {
-        String productName = "";
+      public String getProductNames(int productId) {
+          String productName = "";
+          try {
+              Class.forName("com.mysql.jdbc.Driver");
+              String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+              Connection con = DriverManager.getConnection(url, "root", "465879");
+              String sql = "SELECT name FROM product WHERE id = ?";
+              PreparedStatement pstmt = con.prepareStatement(sql);
+              pstmt.setInt(1, productId);
+              ResultSet rs = pstmt.executeQuery();
+  
+              if (rs.next()) {
+                  productName = rs.getString("name");
+              }
+  
+              rs.close();
+              pstmt.close();
+              con.close();
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+          return productName;
+      }
+
+      public int getProductPrice(int productId) {
+        int productPrice = 0; 
+    
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-            Connection con = DriverManager.getConnection(url, "root", "1234");
-            String sql = "SELECT name FROM product WHERE id = ?";
+            Connection con = DriverManager.getConnection(url, "root", "465879");
+            String sql = "SELECT price FROM product WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, productId);
             ResultSet rs = pstmt.executeQuery();
-
+    
             if (rs.next()) {
-                productName = rs.getString("name");
+                productPrice = rs.getInt("price");
             }
-
+    
             rs.close();
             pstmt.close();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return productName;
+    
+        return productPrice;
     }
+      public String getProductSrc(int productId) {
+          String productSrc = "";
+          try {
+              Class.forName("com.mysql.jdbc.Driver");
+              String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+              Connection con = DriverManager.getConnection(url, "root", "465879");
+              String sql = "SELECT src FROM product WHERE id = ?";
+              PreparedStatement pstmt = con.prepareStatement(sql);
+              pstmt.setInt(1, productId);
+              ResultSet rs = pstmt.executeQuery();
+  
+              if (rs.next()) {
+                  productSrc = rs.getString("src");
+              }
+  
+              rs.close();
+              pstmt.close();
+              con.close();
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+          return productSrc;
+      }
+      %>  
+      
+    <h2 class="topic-title">DECORATION</h2> 
+    <form method="post">
+        <div class="product">
+            <a href="commodity.html">
+                <img class="form-img" src="assets/image/<%= getProductSrc(7) %>.jpg">
+            </a>
+            <p><b><%= getProductNames(7) %></p></b>
+            <input type="hidden" name="addToCart" value="product7">
+            <input type="submit" class="add-to-cart" value="加入購物車" />
+        </div>
+    </form>
+    
+    <form method="post">
+        <div class="product">
+            <a href="commodity.html">
+                <img class="form-img" src="assets/image/<%= getProductSrc(8) %>.jpg">
+            </a>
+            <p><b><%= getProductNames(8) %></p></b>
+            <input type="hidden" name="addToCart" value="product8">
+            <input type="submit" class="add-to-cart" value="加入購物車" />
+        </div>
+    </form>
+    
+    <form method="post">
+        <div class="product">
+            <a href="commodity.html">
+                <img class="form-img" src="assets/image/<%= getProductSrc(9) %>.jpg">
+            </a>
+            <p><b><%= getProductNames(9) %></p></b>
+            <input type="hidden" name="addToCart" value="product9">
+            <input type="submit" class="add-to-cart" value="加入購物車" />
+        </div>
+    </form>
+    
+    
+    <form method="post">
+        <div class="product">
+            <a href="commodity.html">
+                <img class="form-img" src="assets/image/<%= getProductSrc(10) %>.jpg">
+            </a>
+            <p><b><%= getProductNames(10) %></p></b>
+            <input type="hidden" name="addToCart" value="product10">
+            <input type="submit" class="add-to-cart" value="加入購物車" />
+        </div>
+    </form>
+    
+    <form method="post">
+        <div class="product">
+            <a href="commodity.html">
+                <img class="form-img" src="assets/image/<%= getProductSrc(11) %>.jpg">
+            </a>
+            <p><b><%= getProductNames(11) %></p></b>
+            <input type="hidden" name="addToCart" value="product11">
+            <input type="submit" class="add-to-cart" value="加入購物車" />
+        </div>
+    </form>
+    
+    <form method="post">
+        <div class="product">
+            <a href="commodity.html">
+                <img class="form-img" src="assets/image/<%= getProductSrc(12) %>.jpg">
+            </a>
+            <p><b><%= getProductNames(12) %></p></b>
+            <input type="hidden" name="addToCart" value="product12">
+            <input type="submit" class="add-to-cart" value="加入購物車" />
+        </div>
+    </form>
 
-    public String getProductSrc(int productId) {
-        String productSrc = "";
+    
+
+    <%
+    if ("POST".equals(request.getMethod())) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+    
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-            Connection con = DriverManager.getConnection(url, "root", "1234");
-            String sql = "SELECT src FROM product WHERE id = ?";
-            PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, productId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                productSrc = rs.getString("src");
-            }
-
-            rs.close();
-            pstmt.close();
-            con.close();
+            String username = "root";
+            String password = "465879";
+            connection = DriverManager.getConnection(url, username, password);
+    
+            String submittedProduct = request.getParameter("addToCart");
+    
+            // 根據 submittedProduct 獲取相應的產品數據
+            String productName = null;
+            String productSrc = null;
+            int productPrice = 0;
+    
+            if ("product7".equals(submittedProduct)) {
+                productName = getProductNames(7);
+                productSrc = getProductSrc(7);
+                productPrice = getProductPrice(7);
+            } else if ("product8".equals(submittedProduct)) {
+                productName = getProductNames(8);
+                productSrc = getProductSrc(8);
+                productPrice = getProductPrice(8);
+            } else if ("product9".equals(submittedProduct)) {
+                productName = getProductNames(9);
+                productSrc = getProductSrc(9);
+                productPrice = getProductPrice(9);
+            } else if ("product10".equals(submittedProduct)) {
+                productName = getProductNames(10);
+                productSrc = getProductSrc(10);
+                productPrice = getProductPrice(10);
+            } else if ("product11".equals(submittedProduct)) {
+                productName = getProductNames(11);
+                productSrc = getProductSrc(11);
+                productPrice = getProductPrice(11);
+            } else if ("product12".equals(submittedProduct)) {
+                productName = getProductNames(12);
+                productSrc = getProductSrc(12);
+                productPrice = getProductPrice(12);
+            } 
+            
+    
+            // 執行資料庫插入
+            String insertQuery = "INSERT INTO car (src, name, price) VALUES (?, ?, ?)";
+            preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, productSrc);
+            preparedStatement.setString(2, productName);
+            preparedStatement.setInt(3, productPrice);
+            int rowsAffected = preparedStatement.executeUpdate();
+    
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) preparedStatement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        return productSrc;
     }
-
-    %>
-  <h2 class="topic-title">DECORATION</h2> 
-  <form>
-    <div class="product">
-        <a href="commodity.html">
-        <img class="form-img" src="assets/image/<%= getProductSrc(7) %>.jpg">
-        </a>
-        <p><b><%= getProductNames(7) %></p></b>
-        <input type="hidden" name="product" value="<%= getProductNames(7) %>">
-        <button class="add-to-cart">加入購物車</button>
-    </div>
-
-    <div class="product">
-        <a href="commodity.html">
-        <img class="form-img" src="assets/image/<%= getProductSrc(8) %>.jpg">
-        </a>
-        <p><b><%= getProductNames(8) %></p></b>
-        <input type="hidden" name="product" value="<%= getProductNames(8) %>">
-        <button class="add-to-cart">加入購物車</button>
-    </div>
-
-    <div class="product">
-        <a href="commodity.html">
-        <img class="form-img" src="assets/image/<%= getProductSrc(9) %>.jpg">
-        </a>
-        <p><b><%= getProductNames(9) %></p></b>
-        <input type="hidden" name="product" value="<%= getProductNames(9) %>">
-        <button class="add-to-cart">加入購物車</button>
-    </div>       
-
-    <div class="product">
-        <a href="commodity.html">
-        <img class="form-img" src="assets/image/<%= getProductSrc(10) %>.jpg">
-        </a>
-        <p><b><%= getProductNames(10) %></p></b>
-        <input type="hidden" name="product" value="<%= getProductNames(10) %>">
-        <button class="add-to-cart">加入購物車</button>
-    </div>
-
-    <div class="product">
-        <a href="commodity.html">
-        <img class="form-img" src="assets/image/<%= getProductSrc(11) %>.jpg">
-        </a>
-        <p><b><%= getProductNames(11) %></p></b>
-        <input type="hidden" name="product" value="<%= getProductNames(11) %>">
-        <button class="add-to-cart">加入購物車</button>
-    </div>
-
-    <div class="product">
-        <a href="commodity.html">
-        <img class="form-img" src="assets/image/<%= getProductSrc(12) %>.jpg">
-        </a>
-        <p><b><%= getProductNames(12) %></p></b>
-        <input type="hidden" name="product" value="<%= getProductNames(12) %>">
-        <button class="add-to-cart">加入購物車</button>
-    </div>
-  </form>
-
-  <footer>
-    &copy; 2023 蔡貽琳 李芸妘 鄭夙妙 邱凱琳 陳家謙 許明琪
-  </footer>
+    %>    
+    <footer>
+      &copy; 2023 蔡貽琳 李芸妘 鄭夙妙 邱凱琳 陳家謙 許明琪
+    </footer>
   
   </body>
   </html>
