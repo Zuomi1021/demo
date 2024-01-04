@@ -66,38 +66,52 @@
         </div>
       </div>
     
-      <form action="car_cal.jsp" method="post">
+      <form action="" method="post">
         <div class="container">
             <h1>購物車</h1>
             <%
-            String account = (String) session.getAttribute("account");
             Connection conn = null;
             Statement stmt = null;
             ResultSet rs = null;
             
             try {
+                // 加載JDBC驅動
                 Class.forName("com.mysql.cj.jdbc.Driver");
             
+                // 建立數據庫連接
                 String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
                 String username = "root";
-                String password = "1234";
+                String password = "465879";
                 conn = DriverManager.getConnection(url, username, password);
             
+                // 創建Statement對象
                 stmt = conn.createStatement();
             
-                String sql = "SELECT name, type, price, src, " +
-                "(SELECT MAX(id) FROM car WHERE account = '" + account + "') AS maxId " +
-                "FROM car WHERE account = '" + account + "';";
+                // 執行SQL查詢
+                String sql = "SELECT name, type, price, src, quantity, " +
+                "(SELECT MAX(id) FROM car) AS maxId " +
+                "FROM car;";
                 rs = stmt.executeQuery(sql);
-                        
+                    
+                // 定義一個變數來保存總價
+                int totalPrice = 0;
+
+                // 獲取值並動態生成HTML結構
                 while (rs.next()) {
                     String name = rs.getString("name");
                     String type = rs.getString("type");
                     int price = rs.getInt("price");
                     String src = rs.getString("src");
                     int maxId = rs.getInt("maxId");
+                    int quantity = rs.getInt("quantity");
+            
+                    // 將價格與數量相乘
+                    int subtotal = price * quantity;
+            
+                    // 將每個商品的價格乘以數量加到總價中
+                    totalPrice += subtotal;
+            
                     %>
-
                     <hr>
                     <br>
                     <div class="item-container">
@@ -109,19 +123,25 @@
                             <div class="quantity-container">
                                 <div class="btn-numbox">
                                     <span class="quantity-btn removeBtn">-</span>
-                                    <input type="text" class="input-num" name="inputNum" id="inputNum" value="1"/>
+                                    <input type="text" class="input-num" name="inputNum" id="inputNum" value="<%= quantity %>"/>
                                     <span class="quantity-btn addBtn">+</span>
                                 </div>
                             </div>
                             <p>價格：<span class="price" style="color:black">NT$<%= price %></span></p>
+                            
                         </div>
                     </div>
                     <br>
                     <%
                 }
+                %>
+            <hr>
+            <p>總金額：<span class="price" style="color:black"><b>NT$<%= totalPrice %></b></span></p>
+            <%
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             } finally {
+                // 關閉資源
                 try {
                     if (rs != null) rs.close();
                     if (stmt != null) stmt.close();
@@ -131,9 +151,6 @@
                 }
             }
             %>
-            
-            <hr>
-            <p>總金額：<span class="price" style="color:black"><b>NT$480</b></span></p>
             <hr>
             <input class="next-page" type="submit" value="前往結帳"/>
         </div>
