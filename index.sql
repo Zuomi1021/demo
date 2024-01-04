@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `index` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `index`;
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: index
 -- ------------------------------------------------------
--- Server version	8.0.35
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,15 +51,16 @@ DROP TABLE IF EXISTS `car`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `car` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `member_id` int DEFAULT NULL,
-  `good_id` int DEFAULT NULL,
-  `number` int DEFAULT NULL,
+  `quantity` int DEFAULT '1',
+  `src` varchar(40) DEFAULT NULL,
+  `name` varchar(40) DEFAULT NULL,
+  `price` int DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `member_id` (`member_id`),
-  KEY `good_id` (`good_id`),
-  CONSTRAINT `car_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `personal_data` (`id`),
-  CONSTRAINT `car_ibfk_2` FOREIGN KEY (`good_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `member_id` (`quantity`),
+  KEY `good_id` (`src`),
+  CONSTRAINT `car_ibfk_1` FOREIGN KEY (`quantity`) REFERENCES `personal_data` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,6 +69,7 @@ CREATE TABLE `car` (
 
 LOCK TABLES `car` WRITE;
 /*!40000 ALTER TABLE `car` DISABLE KEYS */;
+INSERT INTO `car` VALUES (1,1,'wear/wear3','聖誕造型髮夾',80,'第四款'),(2,1,'cookie/product2','經典手作禮盒',400,'蔓越莓酥');
 /*!40000 ALTER TABLE `car` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +174,7 @@ CREATE TABLE `personal_data` (
   `auth` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '原石VIP會員',
   `pfp` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'member/profile',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +183,7 @@ CREATE TABLE `personal_data` (
 
 LOCK TABLES `personal_data` WRITE;
 /*!40000 ALTER TABLE `personal_data` DISABLE KEYS */;
-INSERT INTO `personal_data` VALUES (1,'user@123','user@123password','一號使用者','新北市板橋區','user1@gmail.com','0989441123',2,'2000-11-03','1號','鑽石VIP會員','member/profile'),(2,'user@223','user@223password','使用者二號','台北市大安區','user2@gmail.com','0989111222',1,'1999-11-23','二號','黃金VIP會員','member/profile'),(3,'user@323','user@323','使用者三號','高雄市楠梓區','user3@gmail.com','0912345688',2,'2023-12-22','三號','白金VIP會員','member/profile'),(4,'user@423','user@423','使用者四號','澎湖縣','user4@gmail.com','0912345687',2,'2023-12-08','四號','原石VIP會員','member/profile');
+INSERT INTO `personal_data` VALUES (1,'user@123','user@123password','一號使用者','新北市板橋區','user1@gmail.com','0989441123',2,'2000-11-03','1號','鑽石VIP會員','member/profile'),(2,'user@223','user@223password','使用者二號','台北市大安區','user2@gmail.com','0989111222',1,'1999-11-23','二號','黃金VIP會員','member/profile'),(3,'user@323','user@323','使用者三號','高雄市楠梓區','user3@gmail.com','0912345688',2,'2023-12-22','三號','白金VIP會員','member/profile'),(4,'user@423','user@423','使用者四號','澎湖縣','user4@gmail.com','0912345687',2,'2023-12-08','四號','原石VIP會員','member/profile'),(35,'11','11','null','111','11@','11',1,'2024-01-04','null','原石VIP會員','member/profile');
 /*!40000 ALTER TABLE `personal_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,6 +204,7 @@ CREATE TABLE `product` (
   `info` varchar(255) DEFAULT NULL,
   `detail` varchar(255) DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -212,7 +215,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,200,'wear/wear1','聖誕造型眼鏡',10,NULL,NULL,NULL,NULL),(2,100,'wear/wear2','聖誕動物髮夾',7,NULL,NULL,NULL,NULL),(3,100,'wear/wear3','聖誕造型髮夾',5,NULL,NULL,NULL,NULL),(4,150,'wear/wear4','聖誕髮箍',3,NULL,NULL,NULL,NULL),(5,350,'wear/wear5','聖誕風格耳環',5,NULL,NULL,NULL,NULL),(6,350,'wear/wear6','聖誕風格手鍊',8,NULL,NULL,NULL,NULL),(7,10,'decoration/decoration1','聖誕球',200,NULL,NULL,NULL,NULL),(8,50,'decoration/decoration2','聖誕樹裝飾',10,NULL,NULL,NULL,NULL),(9,499,'decoration/decoration3','聖誕小樹',20,NULL,NULL,NULL,NULL),(10,50,'decoration/decoration4','聖誕燈串',30,NULL,NULL,NULL,NULL),(11,150,'decoration/decoration5','聖誕小鹿裝飾',2,NULL,NULL,NULL,NULL),(12,450,'decoration/decoration6','聖誕花圈',5,NULL,NULL,NULL,NULL),(13,499,'cookie/product1','杏仁手工餅乾',15,NULL,NULL,NULL,NULL),(14,499,'cookie/product2','經典手作餅乾',20,'遇見美好-蔓越莓酥 4片/盒。/想念的你-伯爵茶餅乾 8片/盒。/微酸戀曲-香檸桔球 8-12個/盒。','餅乾入口的那一剎那，是心的悸動，是味蕾的饗宴，更是幸福的滋味。','遇見美好-蔓越莓酥/想念的你-伯爵茶餅乾/微酸戀曲-香凝桔球。','✶遇見美好-蔓越莓酥｜成份－低筋麵粉、安佳奶油、蔓越莓乾、砂糖、雞蛋白(白殼)、低鈉鹽。/✶想念的你-伯爵茶餅乾｜成份－低筋麵粉、安佳奶油、糖粉、安佳牛奶、伯爵紅茶。/✶微酸戀曲-香檸桔球｜成份－低筋麵粉、安佳奶油、桔子皮、糖粉、雞蛋白(白殼)、檸檬汁。'),(15,499,'cookie/product3','巧克力夏威夷果',11,NULL,NULL,NULL,NULL),(16,499,'cookie/product4','噠啵曲奇-莓果雙拼',13,NULL,NULL,NULL,NULL),(17,499,'cookie/product5','噠啵曲奇-雙拼派對',17,NULL,NULL,NULL,NULL),(18,499,'cookie/product6','黑熊曲奇餅-繽紛三色',15,NULL,NULL,NULL,NULL);
+INSERT INTO `product` VALUES (1,200,'wear/wear1','聖誕造型眼鏡',10,NULL,NULL,NULL,NULL,NULL),(2,100,'wear/wear2','聖誕動物髮夾',7,NULL,NULL,NULL,NULL,NULL),(3,100,'wear/wear3','聖誕造型髮夾',5,NULL,NULL,NULL,NULL,NULL),(4,150,'wear/wear4','聖誕髮箍',3,NULL,NULL,NULL,NULL,NULL),(5,350,'wear/wear5','聖誕風格耳環',5,NULL,NULL,NULL,NULL,NULL),(6,350,'wear/wear6','聖誕風格手鍊',8,NULL,NULL,NULL,NULL,NULL),(7,10,'decoration/decoration1','聖誕球',200,NULL,NULL,NULL,NULL,NULL),(8,50,'decoration/decoration2','聖誕樹裝飾',10,NULL,NULL,NULL,NULL,NULL),(9,499,'decoration/decoration3','聖誕小樹',20,NULL,NULL,NULL,NULL,NULL),(10,50,'decoration/decoration4','聖誕燈串',30,NULL,NULL,NULL,NULL,NULL),(11,150,'decoration/decoration5','聖誕小鹿裝飾',2,NULL,NULL,NULL,NULL,NULL),(12,450,'decoration/decoration6','聖誕花圈',5,NULL,NULL,NULL,NULL,NULL),(13,499,'cookie/product1','杏仁手工餅乾',15,NULL,NULL,NULL,NULL,NULL),(14,499,'cookie/product2','經典手作餅乾',20,'遇見美好-蔓越莓酥 4片/盒。/想念的你-伯爵茶餅乾 8片/盒。/微酸戀曲-香檸桔球 8-12個/盒。','餅乾入口的那一剎那，是心的悸動，是味蕾的饗宴，更是幸福的滋味。','遇見美好-蔓越莓酥/想念的你-伯爵茶餅乾/微酸戀曲-香凝桔球。','✶遇見美好-蔓越莓酥｜成份－低筋麵粉、安佳奶油、蔓越莓乾、砂糖、雞蛋白(白殼)、低鈉鹽。/✶想念的你-伯爵茶餅乾｜成份－低筋麵粉、安佳奶油、糖粉、安佳牛奶、伯爵紅茶。/✶微酸戀曲-香檸桔球｜成份－低筋麵粉、安佳奶油、桔子皮、糖粉、雞蛋白(白殼)、檸檬汁。',NULL),(15,499,'cookie/product3','巧克力夏威夷果',11,NULL,NULL,NULL,NULL,NULL),(16,499,'cookie/product4','噠啵曲奇-莓果雙拼',13,NULL,NULL,NULL,NULL,NULL),(17,499,'cookie/product5','噠啵曲奇-雙拼派對',17,NULL,NULL,NULL,NULL,NULL),(18,499,'cookie/product6','黑熊曲奇餅-繽紛三色',15,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -225,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-04  8:09:07
+-- Dump completed on 2024-01-05  0:34:33
