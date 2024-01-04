@@ -3,6 +3,9 @@
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
 <%@ page import="javax.servlet.http.HttpServletResponse" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="java.util.regex.Pattern" %>
+<%@ page import="java.util.regex.Matcher" %>
+
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -75,60 +78,112 @@
       </div>
       <%
       String account = (String) session.getAttribute("account");
-      String name = "", nickname = "", email = "", address = "", password = "", pfp = "";
-  
-      // 獲取用戶資料
-      try {
-          // 連接資料庫，執行查詢
-          Class.forName("com.mysql.jdbc.Driver");
-          Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/index", "root", "1234");
-          String query = "SELECT name, nickname, email, address, password, pfp FROM personal_data WHERE account = ?";
-          PreparedStatement stmt = conn.prepareStatement(query);
-          stmt.setString(1, account);
-          ResultSet rs = stmt.executeQuery();
-  
-          if (rs.next()) {
-            // 將查詢結果賦值給相應的變數
+      if(account == null) {
+          response.sendRedirect("member.jsp");
+      }
+    String name = "", nickname = "", email = "", address = "", password = "", pfp = "", auth = "";
+    
+    try {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/index", "root", "1234");
+        String query = "SELECT name, nickname, email, address, password, pfp, auth FROM personal_data WHERE account = ?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, account);
+        ResultSet rs = stmt.executeQuery();
+    
+        if (rs.next()) {
             name = rs.getString("name");
             nickname = rs.getString("nickname");
             email = rs.getString("email");
             address = rs.getString("address");
             password = rs.getString("password");
             pfp = rs.getString("pfp");
-
-            // 設置到request屬性中
-            request.setAttribute("Name", name);
-            request.setAttribute("Nickname", nickname);
-            request.setAttribute("Email", email);
-            request.setAttribute("Address", address);
-            request.setAttribute("Password", password);
-            request.setAttribute("Pfp", pfp);
+            auth = rs.getString("auth");
         }
-
-        // 釋放資源
+    
         rs.close();
         stmt.close();
         conn.close();
     } catch (Exception e) {
         e.printStackTrace();
     }
+
+    request.setAttribute("Pfp", pfp);
+    request.setAttribute("Name", name);
+    request.setAttribute("Nickname", nickname);
+    request.setAttribute("Email", email);
+    request.setAttribute("Address", address);
+    request.setAttribute("Password", password);
+    request.setAttribute("Auth", auth);
+
+    String nameField = request.getParameter("nameField");
+    String filteredNameField = "";
+    if (nameField != null) {
+        Pattern pattern = Pattern.compile("[\\u4E00-\\u9FFFa-zA-Z0-9]+");
+        Matcher matcher = pattern.matcher(nameField);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            sb.append(matcher.group());
+        }
+        filteredNameField = sb.toString();
+    }
+    
+    String nicknameField = request.getParameter("nicknameField");
+    String filteredNicknameField = "";
+    if (nicknameField != null) {
+        Pattern pattern = Pattern.compile("[\\u4E00-\\u9FFFa-zA-Z0-9]+");
+        Matcher matcher = pattern.matcher(nicknameField);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            sb.append(matcher.group());
+        }
+        filteredNicknameField = sb.toString();
+    }
+    
+    String addressField = request.getParameter("addressField");
+    String filteredAddressField = "";
+    if (addressField != null) {
+        Pattern pattern = Pattern.compile("[\\u4E00-\\u9FFFa-zA-Z0-9]+");
+        Matcher matcher = pattern.matcher(addressField);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            sb.append(matcher.group());
+        }
+        filteredAddressField = sb.toString();
+    }
+    
+    String emailField = request.getParameter("emailField");
+    String filteredEmailField = "";
+    if (emailField != null) {
+        Pattern pattern = Pattern.compile("[\\u4E00-\\u9FFFa-zA-Z0-9]+");
+        Matcher matcher = pattern.matcher(emailField);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            sb.append(matcher.group());
+        }
+        filteredEmailField = sb.toString();
+    }
+    
 %>
+
+
 
       
     <div class="tab_css">
       <input id="member" type="radio" name="tab" checked="checked"/>
       <label for="member">會員中心</label>
       <div class="tab_content">
+        <form action="updateProfile.jsp" method="post" accept-charset="UTF-8" onsubmit="return validateForm()">
         <div class="member">
             <h1>Membership</h1>
             <div class="profile">
               <img src='assets/image/<%= request.getAttribute("Pfp") %>.png' id="profile">
               <div class="profile-info">
-                <h3>黃金VIP會員</h3>
+                <h3><%= request.getAttribute("Auth") %></h3>
                 <div class="profile-info-bold">
                   <p><b>會員姓名：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" id="nameField" value='<%= request.getAttribute("Name") %>' readonly>
+                    <input type="text" name="nameField" value='<%= request.getAttribute("Name") %>'/>
                   </div>
                 </div>
                 <div class="profile-info-bold">
@@ -154,19 +209,21 @@
                 <div class="profile-info-bold">
                   <p><b>會員帳號：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="text" name="accountField" value="<%= account %>"/>
+                    <input type="text" name="accountField" value="<%= account %>" readonly>
                   </div>
                 </div>
                 <div class="profile-info-bold">
                   <p><b>會員密碼：</b></p>
                   <div class="profile-info-bold-input">
-                    <input type="password" name="passwordField" value='<%= request.getAttribute("Password") %>'/>
+                    <input type="password" name="passwordField" value='<%= request.getAttribute("Password") %>' readonly>
                   </div>
                 </div>
               </div>
             </div>
         </div>
-        <button onclick="editProfile()" class="cart">修改會員資訊</button>
+        <button class="cart" type="submit">修改會員資訊</button>
+      </form>
+      <a href="password.jsp" class="nonline"><button class="cart">變更密碼</button></a>
       </div>
 
       <input id="order" type="radio" name="tab" />

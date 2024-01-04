@@ -327,3 +327,7 @@ h3 {
 .review-detail hr {
     width: 100%;
 }
+.nonline {
+    text-decoration: none;
+    color: white;
+}
