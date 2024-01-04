@@ -16,9 +16,6 @@
         <link rel="icon" href="assets/image/aboutus/logo.png">
     </head>
     
-<%
-    String rank = "top";
-%>
 <style>
     footer {
         position: fixed;
@@ -26,7 +23,6 @@
         width: 100%;
     }
     
-        /* 容器 */
         .table-container {
             width: 100%;
             max-width: 80%;
@@ -35,9 +31,8 @@
             margin: auto;
         }
 
-        /* 表格樣式 */
         table {
-            width: 100%; /* 讓表格填滿容器寬度 */
+            width: 100%;
             border-collapse: collapse;
         }
 
@@ -61,11 +56,12 @@
             <option value="payway">payway</option>
             <option value="personal_data">personal_data</option>
             <option value="product">product</option>
+            <option value="car">car</option>
         </select>
     </form>
 
 
-    <div id="tableData"class="table-container"></div>
+    <div id="tableData"class="table-container"><%@ include file="tableData.jsp" %></div>
     <button onclick="logout()" class="cart">登出</button>
     <script>
 function getSelectedTableData() {
@@ -81,8 +77,6 @@ function getSelectedTableData() {
     });
 }
 
-
-
         $(document).ready(function() {
             getSelectedTableData();
         });
@@ -94,7 +88,6 @@ function getSelectedTableData() {
         window.location.href = "index.jsp";
     }
 }
-
 
     </script>
         <footer>

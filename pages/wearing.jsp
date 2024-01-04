@@ -73,7 +73,7 @@
           try {
               Class.forName("com.mysql.jdbc.Driver");
               String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-              Connection con = DriverManager.getConnection(url, "root", "465879");
+              Connection con = DriverManager.getConnection(url, "root", "1234");
               String sql = "SELECT name FROM product WHERE id = ?";
               PreparedStatement pstmt = con.prepareStatement(sql);
               pstmt.setInt(1, productId);
@@ -98,7 +98,7 @@
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-            Connection con = DriverManager.getConnection(url, "root", "465879");
+            Connection con = DriverManager.getConnection(url, "root", "1234");
             String sql = "SELECT price FROM product WHERE id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, productId);
@@ -122,7 +122,7 @@
           try {
               Class.forName("com.mysql.jdbc.Driver");
               String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
-              Connection con = DriverManager.getConnection(url, "root", "465879");
+              Connection con = DriverManager.getConnection(url, "root", "1234");
               String sql = "SELECT src FROM product WHERE id = ?";
               PreparedStatement pstmt = con.prepareStatement(sql);
               pstmt.setInt(1, productId);
