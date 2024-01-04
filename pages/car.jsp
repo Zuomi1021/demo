@@ -66,52 +66,81 @@
         </div>
       </div>
     
-    <form action="action_page.php">
+      <form action="car_cal.jsp" method="post">
         <div class="container">
             <h1>購物車</h1>
-            <hr>
-            <br>
-            <div class="item-container">
-                <input type="radio" id="photo1" value="photo1">
-                <img src="assets/image/wear/wear3.jpg" alt="照片1">
-                    <div class="item-details">
-                        <p><b>聖誕造型髮夾</b></p>
-                        <p>選項：第四款</p>
-                        <div class="quantity-container">
-                            <div class="btn-numbox">
-                              <span class="quantity-btn removeBtn">-</span>
-                              <input type="text" class="input-num"  value="1"/>
-                              <span class="quantity-btn addBtn">+</span>
+            <%
+            Connection conn = null;
+            Statement stmt = null;
+            ResultSet rs = null;
+            
+            try {
+                // 加載JDBC驅動
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            
+                // 建立數據庫連接
+                String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
+                String username = "root";
+                String password = "465879";
+                conn = DriverManager.getConnection(url, username, password);
+            
+                // 創建Statement對象
+                stmt = conn.createStatement();
+            
+                // 執行SQL查詢
+                String sql = "SELECT name, type, price, src, " +
+                "(SELECT MAX(id) FROM car) AS maxId " +
+                "FROM car;";
+                rs = stmt.executeQuery(sql);
+                        
+                // 獲取值並動態生成HTML結構
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    String type = rs.getString("type");
+                    int price = rs.getInt("price");
+                    String src = rs.getString("src");
+                    int maxId = rs.getInt("maxId");
+                    %>
+
+                    <hr>
+                    <br>
+                    <div class="item-container">
+                        <input type="radio" id="photo<%= maxId %>" value="photo<%= maxId %>">
+                        <img src="assets/image/<%= src %>.jpg" alt="照片<%= maxId %>">
+                        <div class="item-details">
+                            <p><b><%= name %></b></p>
+                            <p>選項：<%= type %></p>
+                            <div class="quantity-container">
+                                <div class="btn-numbox">
+                                    <span class="quantity-btn removeBtn">-</span>
+                                    <input type="text" class="input-num" name="inputNum" id="inputNum" value="1"/>
+                                    <span class="quantity-btn addBtn">+</span>
+                                </div>
                             </div>
+                            <p>價格：<span class="price" style="color:black">NT$<%= price %></span></p>
                         </div>
-                        <p>價格：<span class="price" style="color:black">NT$80</span></p>
                     </div>
-            </div>
-            <br>
-            <hr>
-            <br>
-            <div class="item-container">
-                <input type="radio" id="photo2" value="photo2">
-                <img src="assets/image/cookie/product2.jpg" alt="照片1">
-                    <div class="item-details">
-                        <p><b>經典手作禮盒</b></p>
-                        <p>選項：蔓越莓酥</p>
-                        <div class="quantity-container">
-                            <div class="btn-numbox">
-                              <span  class="quantity-btn removeBtn">-</span>
-                              <input type="text" class="input-num"  value="1"/>
-                              <span  class="quantity-btn addBtn">+</span>
-                            </div>
-                        </div>
-                        <p>價格：<span class="price" style="color:black">NT$400</span></p>
-                    </div>            
-            </div>
-            <br>
+                    <br>
+                    <%
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            } finally {
+                // 關閉資源
+                try {
+                    if (rs != null) rs.close();
+                    if (stmt != null) stmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            %>
+            
             <hr>
             <p>總金額：<span class="price" style="color:black"><b>NT$480</b></span></p>
             <hr>
-
-            <button type="button" class="next-page" onclick="window.location.href='checkout.html'">前往結帳</button>
+            <input class="next-page" type="submit" value="前往結帳"/>
         </div>
     </form>
 
