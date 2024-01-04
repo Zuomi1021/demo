@@ -70,30 +70,26 @@
         <div class="container">
             <h1>購物車</h1>
             <%
+            String account = (String) session.getAttribute("account");
             Connection conn = null;
             Statement stmt = null;
             ResultSet rs = null;
             
             try {
-                // 加載JDBC驅動
                 Class.forName("com.mysql.cj.jdbc.Driver");
             
-                // 建立數據庫連接
                 String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
                 String username = "root";
-                String password = "465879";
+                String password = "1234";
                 conn = DriverManager.getConnection(url, username, password);
             
-                // 創建Statement對象
                 stmt = conn.createStatement();
             
-                // 執行SQL查詢
                 String sql = "SELECT name, type, price, src, " +
-                "(SELECT MAX(id) FROM car) AS maxId " +
-                "FROM car;";
+                "(SELECT MAX(id) FROM car WHERE account = '" + account + "') AS maxId " +
+                "FROM car WHERE account = '" + account + "';";
                 rs = stmt.executeQuery(sql);
                         
-                // 獲取值並動態生成HTML結構
                 while (rs.next()) {
                     String name = rs.getString("name");
                     String type = rs.getString("type");
@@ -126,7 +122,6 @@
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             } finally {
-                // 關閉資源
                 try {
                     if (rs != null) rs.close();
                     if (stmt != null) stmt.close();

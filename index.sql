@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `index` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `index`;
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: index
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.0.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,11 +56,12 @@ CREATE TABLE `car` (
   `name` varchar(40) DEFAULT NULL,
   `price` int DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
+  `account` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `member_id` (`quantity`),
   KEY `good_id` (`src`),
   CONSTRAINT `car_ibfk_1` FOREIGN KEY (`quantity`) REFERENCES `personal_data` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +70,7 @@ CREATE TABLE `car` (
 
 LOCK TABLES `car` WRITE;
 /*!40000 ALTER TABLE `car` DISABLE KEYS */;
-INSERT INTO `car` VALUES (1,1,'wear/wear3','聖誕造型髮夾',80,'第四款'),(2,1,'cookie/product2','經典手作禮盒',400,'蔓越莓酥');
+INSERT INTO `car` VALUES (1,1,'wear/wear3','聖誕造型髮夾',80,'第四款','user@223'),(2,1,'cookie/product2','經典手作禮盒',400,'蔓越莓酥','user@123'),(3,2,'wear/wear3','聖誕造型髮夾',80,'第四款','user@123'),(4,3,'cookie/product2','經典手作禮盒',400,'蔓越莓酥','user@323'),(5,1,'cookie/product2','經典手作禮盒',400,'蔓越莓酥','user@423');
 /*!40000 ALTER TABLE `car` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,7 +184,7 @@ CREATE TABLE `personal_data` (
 
 LOCK TABLES `personal_data` WRITE;
 /*!40000 ALTER TABLE `personal_data` DISABLE KEYS */;
-INSERT INTO `personal_data` VALUES (1,'user@123','user@123password','一號使用者','新北市板橋區','user1@gmail.com','0989441123',2,'2000-11-03','1號','鑽石VIP會員','member/profile'),(2,'user@223','user@223password','使用者二號','台北市大安區','user2@gmail.com','0989111222',1,'1999-11-23','二號','黃金VIP會員','member/profile'),(3,'user@323','user@323','使用者三號','高雄市楠梓區','user3@gmail.com','0912345688',2,'2023-12-22','三號','白金VIP會員','member/profile'),(4,'user@423','user@423','使用者四號','澎湖縣','user4@gmail.com','0912345687',2,'2023-12-08','四號','原石VIP會員','member/profile'),(35,'11','11','null','111','11@','11',1,'2024-01-04','null','原石VIP會員','member/profile');
+INSERT INTO `personal_data` VALUES (1,'user@123','user@123password','一號使用者','新北市板橋區','user1@gmail.com','0989441123',2,'2000-11-03','1號','鑽石VIP會員','member/profile'),(2,'user@223','user@223password','使用者二號','台北市大安區','user2@gmail.com','0989111222',1,'1999-11-23','二號','黃金VIP會員','member/profile'),(3,'user@323','user@323','使用者三號','高雄市楠梓區','user3@gmail.com','0912345688',2,'2023-12-22','三號','白金VIP會員','member/profile'),(4,'user@423','user@423','使用者四號','澎湖縣','user4@gmail.com','0912345687',2,'2023-12-08','四號','原石VIP會員','member/profile'),(5,'11','11','null','111','11@','11',1,'2024-01-04','null','原石VIP會員','member/profile');
 /*!40000 ALTER TABLE `personal_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,4 +229,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-05  0:34:33
+-- Dump completed on 2024-01-05  1:53:32
