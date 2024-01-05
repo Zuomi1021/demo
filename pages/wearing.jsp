@@ -220,7 +220,7 @@
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
             String username = "root";
-            String password = "465879";
+            String password = "1234";
             connection = DriverManager.getConnection(url, username, password);
     
             String submittedProduct = request.getParameter("addToCart");

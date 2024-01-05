@@ -39,7 +39,7 @@
                   </ul>
                   
               </li>
-              <li class="name"><a href="aboutus.html">關於我們</a></li>
+              <li class="name"><a href="aboutus.jsp">關於我們</a></li>
               <%
               if (session.getAttribute("account") != null) {
               %>

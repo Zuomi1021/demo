@@ -28,7 +28,7 @@
                   </ul>
                   
               </li>
-              <li class="name"><a href="aboutus.html">關於我們</a></li>
+              <li class="name"><a href="aboutus.jsp">關於我們</a></li>
               <%
               if (session.getAttribute("account") != null) {
               %>
@@ -70,34 +70,28 @@
         <div class="container">
             <h1>購物車</h1>
             <%
+            String account = (String) session.getAttribute("account");
             Connection conn = null;
             Statement stmt = null;
             ResultSet rs = null;
             
             try {
-                // 加載JDBC驅動
                 Class.forName("com.mysql.cj.jdbc.Driver");
             
-                // 建立數據庫連接
                 String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
                 String username = "root";
-                String password = "465879";
+                String password = "1234";
                 conn = DriverManager.getConnection(url, username, password);
             
-                // 創建Statement對象
                 stmt = conn.createStatement();
             
-                // 執行SQL查詢
                 String sql = "SELECT name, type, price, src, quantity, " +
                 "(SELECT MAX(id) FROM car) AS maxId " +
                 "FROM car;";
-
                 rs = stmt.executeQuery(sql);
                     
-                // 定義一個變數來保存總價
                 int totalPrice = 0;
 
-                // 獲取值並動態生成HTML結構
                 while (rs.next()) {
                     String name = rs.getString("name");
                     String type = rs.getString("type");
@@ -106,10 +100,8 @@
                     int maxId = rs.getInt("maxId");
                     int quantity = rs.getInt("quantity");
             
-                    // 將價格與數量相乘
                     int subtotal = price * quantity;
             
-                    // 將每個商品的價格乘以數量加到總價中
                     totalPrice += subtotal;
             
                     %>

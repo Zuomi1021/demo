@@ -45,8 +45,8 @@
   
         <div class="header-links">
           <%
-      if (session.getAttribute("username") != null) {
-          String username = (String) session.getAttribute("username");
+      if (session.getAttribute("account") != null) {
+          String username = (String) session.getAttribute("account");
       %>
           <span>歡迎, <%= username %>！</span>
           <a href="car.jsp">購物車</a>
