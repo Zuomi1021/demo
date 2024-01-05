@@ -240,25 +240,25 @@
           <div class="card-item">
             <div class="card">
               <div class="imgBx">
-                <img class="myphoto" src="assets/image/aboutus/hamster.jpg" />
+                <img class="myphoto" src="assets/image/aboutus/kai.JPG" />
               </div>
               <div class="content">
                 <div class="details">
                   <h2>網頁後端 邱凱琳</h2>
-                  <p>OOO</p>
+                  <p>平常在用一些app都會嫌棄功能不好用，一直到自己親自寫後端才知道要實現那些功能有多困難。</p>
                   <ul class="social-icons">
                     <li>
-                      <a href="#" target="_blank"
+                      <a href="https://www.facebook.com/profile.php?id=100003923298126&mibextid=LQQJ4d" target="_blank"
                         ><i class="fa-brands fa-square-facebook"></i
                       ></a>
                     </li>
                     <li>
-                      <a href="#" target="_blank"
+                      <a href="https://www.instagram.com/kai30502?igsh=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr" target="_blank"
                         ><i class="fa-brands fa-square-instagram"></i
                       ></a>
                     </li>
                     <li>
-                      <a href="mailto:#" target="_blank"
+                      <a href="mailto:kai305021@gmail.com" target="_blank"
                         ><i class="fa-solid fa-square-envelope"></i
                       ></a>
                     </li>
