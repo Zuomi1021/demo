@@ -81,16 +81,17 @@
                 // 建立數據庫連接
                 String url = "jdbc:mysql://localhost/index?serverTimezone=UTC";
                 String username = "root";
-                String password = "1234";
+                String password = "465879";
                 conn = DriverManager.getConnection(url, username, password);
             
                 // 創建Statement對象
                 stmt = conn.createStatement();
             
                 // 執行SQL查詢
-                String sql = "SELECT name, type, price, src, " +
-                "(SELECT MAX(id) FROM car WHERE account = '" + account + "') AS maxId " +
-                "FROM car WHERE account = '" + account + "';";
+                String sql = "SELECT name, type, price, src, quantity, " +
+                "(SELECT MAX(id) FROM car) AS maxId " +
+                "FROM car;";
+
                 rs = stmt.executeQuery(sql);
                     
                 // 定義一個變數來保存總價
