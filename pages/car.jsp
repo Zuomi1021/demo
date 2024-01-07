@@ -66,9 +66,9 @@
         </div>
       </div>
     
-      <form action="" method="post">
         <div class="container">
             <h1>購物車</h1>
+    
             <%
             String account = (String) session.getAttribute("account");
             Connection conn = null;
@@ -85,7 +85,7 @@
             
                 stmt = conn.createStatement();
             
-                String sql = "SELECT name, type, price, src, quantity, " +
+                String sql = "SELECT name, type, price, src, quantity, id, " +
                 "(SELECT MAX(id) FROM car) AS maxId " +
                 "FROM car;";
                 rs = stmt.executeQuery(sql);
@@ -97,33 +97,37 @@
                     String type = rs.getString("type");
                     int price = rs.getInt("price");
                     String src = rs.getString("src");
-                    int maxId = rs.getInt("maxId");
+                    int id = rs.getInt("id");
                     int quantity = rs.getInt("quantity");
-            
+                
+                    // 計算小計
                     int subtotal = price * quantity;
-            
                     totalPrice += subtotal;
-            
-                    %>
+                %>
                     <hr>
                     <br>
-                    <div class="item-container">
-                        <input type="radio" id="photo<%= maxId %>" value="photo<%= maxId %>">
-                        <img src="assets/image/<%= src %>.jpg" alt="照片<%= maxId %>">
-                        <div class="item-details">
-                            <p><b><%= name %></b></p>
-                            <p>選項：<%= type %></p>
-                            <div class="quantity-container">
-                                <div class="btn-numbox">
-                                    <span class="quantity-btn removeBtn">-</span>
-                                    <input type="text" class="input-num" name="inputNum" id="inputNum" value="<%= quantity %>"/>
-                                    <span class="quantity-btn addBtn">+</span>
+                    <form action="delete.jsp" method="post">
+                        <div class="item-container">
+                            <input type="hidden" name="itemId" value="<%= id %>">
+                            <input type="radio" id="photo<%= id %>" value="photo<%= id %>">
+                            <img src="assets/image/<%= src %>.jpg" alt="照片<%= id %>">
+                            <div class="item-details">
+                                <p><b><%= name %></b></p>
+                                <p>選項：<%= type %></p>
+                                <input type="hidden" name="itemId" value="<%= id %>">
+                                <div class="quantity-container">
+                                    <div class="btn-numbox">
+                                        <span class="quantity-btn removeBtn">-</span>
+                                        <input type="text" class="input-num" name="updatedQuantity" id="inputNum" value="<%= quantity %>"/>
+                                        <span class="quantity-btn addBtn">+</span>
+                                    </div>
                                 </div>
+                                <button type="submit">更新數量</button>
+                                <p>價格：<span class="price" style="color:black">NT$<%= price %></span></p>
+                                <button type="submit" name="deleteItem" value="<%= id %>">刪除</button>
                             </div>
-                            <p>價格：<span class="price" style="color:black">NT$<%= price %></span></p>
-                            
                         </div>
-                    </div>
+                    </form>
                     <br>
                     <%
                 }
@@ -131,22 +135,25 @@
             <hr>
             <p>總金額：<span class="price" style="color:black"><b>NT$<%= totalPrice %></b></span></p>
             <%
-            } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // 關閉資源
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                // 關閉資源
-                try {
-                    if (rs != null) rs.close();
-                    if (stmt != null) stmt.close();
-                    if (conn != null) conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
             }
-            %>
+        }
+        %>
             <hr>
-            <input class="next-page" type="submit" value="前往結帳"/>
+            
         </div>
+    </form>
+    <form action="checkout.jsp">
+    <input class="next-page" type="submit" value="前往結帳"/>
     </form>
 
     <footer>
