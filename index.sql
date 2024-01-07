@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `index` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `index`;
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: localhost    Database: index
 -- ------------------------------------------------------
--- Server version	8.0.35
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,12 +54,10 @@ CREATE TABLE `car` (
   `name` varchar(40) DEFAULT NULL,
   `price` int DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
-  `account` varchar(45) DEFAULT NULL,
+  `account` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `member_id` (`quantity`),
-  KEY `good_id` (`src`),
-  CONSTRAINT `car_ibfk_1` FOREIGN KEY (`quantity`) REFERENCES `personal_data` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `good_id` (`src`)
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +66,7 @@ CREATE TABLE `car` (
 
 LOCK TABLES `car` WRITE;
 /*!40000 ALTER TABLE `car` DISABLE KEYS */;
-INSERT INTO `car` VALUES (1,1,'wear/wear3','聖誕造型髮夾',80,'第四款','user@223'),(2,1,'cookie/product2','經典手作禮盒',400,'蔓越莓酥','user@123'),(3,2,'wear/wear3','聖誕造型髮夾',80,'第四款','user@123'),(4,3,'cookie/product2','經典手作禮盒',400,'蔓越莓酥','user@323'),(5,1,'cookie/product2','經典手作禮盒',400,'蔓越莓酥','user@423');
+INSERT INTO `car` VALUES (45,2,'wear/wear1','聖誕造型眼鏡',200,NULL,NULL),(46,5,'wear/wear2','聖誕動物髮夾',100,NULL,NULL),(47,2,'decoration/decoration6','聖誕花圈',450,NULL,NULL);
 /*!40000 ALTER TABLE `car` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,8 +106,7 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order` (
-  `id` int NOT NULL,
-  `order_number` varchar(45) DEFAULT NULL,
+  `id` int NOT NULL DEFAULT '1729',
   `date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -123,6 +118,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (1729,'2024-04-21');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-05  6:43:20
+-- Dump completed on 2024-01-07 16:45:38
